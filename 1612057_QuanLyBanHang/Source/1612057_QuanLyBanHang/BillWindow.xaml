@@ -1,0 +1,114 @@
+﻿<Window x:Class="_1612057_QuanLyBanHang.BillWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_1612057_QuanLyBanHang"
+        mc:Ignorable="d"
+        
+         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        
+         xmlns:uc="clr-namespace:_1612057_QuanLyBanHang.UserControl_Chuan"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+         TextElement.FontWeight="Regular"
+         TextElement.FontSize="13"
+         TextOptions.TextFormattingMode="Ideal"
+         TextOptions.TextRenderingMode="Auto"
+         Background="{DynamicResource MaterialDesignPaper}"
+         FontFamily="{DynamicResource MaterialDesignFont}"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        
+        
+          DataContext="{StaticResource BillVM}"
+        
+        Name="window"        
+        Title="Hóa đơn" Height="450" Width="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <uc:ControlBarUC Tag="{Binding Title, ElementName=window}"></uc:ControlBarUC>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <!--các element binding từ selected item     -->
+            <materialDesign:Card Grid.Row="0" Margin="5">
+                <WrapPanel Margin="0 0 0 10">
+
+                    <ComboBox Width="120" Margin="5 5 15 5" DisplayMemberPath="TenKhachHang" ItemsSource="{Binding KHACHHANG}" SelectedItem="{Binding SelectedKHACHHANG, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Khách hàng" IsEnabled="False" Style="{StaticResource MaterialDesignFloatingHintComboBox}"></ComboBox>
+
+                    <ComboBox x:Name="sanphamChanged" Width="200" Margin="5 5 15 5" DisplayMemberPath="TenSanPham" ItemsSource="{Binding SANPHAM}" SelectedItem="{Binding SelectedSANPHAM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Tên sản phẩm" IsEnabled="False" Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding InfoChangeCommand}" CommandParameter="{Binding ElementName=sanphamChanged}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+
+                    <TextBox  Width="120" Margin="5 5 15 5" Text="{Binding DonGia, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  materialDesign:HintAssist.Hint="Đơn giá" IsEnabled="False" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                    <TextBox Width="120" Margin="5 5 15 5" Text="{Binding TenKhuyenMai, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  materialDesign:HintAssist.Hint="Khuyến Mãi" IsEnabled="False" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+                    <!--Bắt event số lượng thay đổi-->
+                    <TextBox x:Name="soluong" Width="70" Margin="5 5 15 5" Text="{Binding SoLuong, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  materialDesign:HintAssist.Hint="Số lượng" IsEnabled="False" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="TextChanged">
+                                <i:InvokeCommandAction Command="{Binding TextChangeCommand}" CommandParameter="{Binding ElementName=soluong}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+
+                    <TextBox x:Name="tongtien" Width="150" Margin="5 5 15 5" Text="{Binding TongTien, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  materialDesign:HintAssist.Hint="Tổng tiền" IsEnabled="False" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                    <ComboBox Width="250" Margin="5 5 15 5"  DisplayMemberPath="MoTa" ItemsSource="{Binding TINHTRANG}" SelectedItem="{Binding SelectedTINHTRANG, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Tình trạng" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}"></ComboBox>
+                    <DatePicker Width="150" VerticalAlignment="Center" SelectedDate="{Binding NgayMua,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" Margin="5 5 15 5" materialDesign:HintAssist.Hint="Ngày bán" IsEnabled="False" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                    <ComboBox Width="150" Margin="5 5 15 5" DisplayMemberPath="TenQTV" ItemsSource="{Binding QUANTRIVIEN}" SelectedItem="{Binding SelectedQUANTRIVIEN, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Người bán" IsEnabled="False" Style="{StaticResource MaterialDesignFloatingHintComboBox}"></ComboBox>
+
+
+                </WrapPanel>
+            </materialDesign:Card>
+
+            <!--Binding các command xử lí-->
+            <materialDesign:Card Grid.Row="1" Margin="5">
+                <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <!--    <CheckBox x:Name="checkBox" IsChecked="{Binding ElementName=window , Path=IsChecked}" Style="{StaticResource MaterialDesignCheckBox}"> Xếp theo Giá Tiền </CheckBox> -->
+                    <Button Command="{Binding SortCommand}"  Content="Sắp xếp" Margin="5 5 70 5" Width="100"></Button>
+                    <Button Command="{Binding DeleteCommand}" Content="Xóa" Margin="5 5 70 5" Width="100"></Button>
+                    <Button Command="{Binding EditCommand}" Content="Sửa" Margin="5 5 70 5" Width="100"></Button>
+                    <Button Command="{Binding NotPayCommand}" Content="Chưa thanh toán" Margin="5 5 70 5" Width="150"></Button>
+                </WrapPanel>
+            </materialDesign:Card>
+
+            <!--grib view-->
+            <materialDesign:Card Grid.Row="2" Margin="5" VerticalAlignment="Stretch">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ListView ItemsSource="{Binding List}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
+                        <ListView.View>
+                            <GridView>
+
+                                <GridViewColumn Width="50" Header="ID" DisplayMemberBinding="{Binding ID_DONHANG}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Khách hàng" DisplayMemberBinding="{Binding KHACHHANG.TenKhachHang}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Sản phẩm" DisplayMemberBinding="{Binding SANPHAM.TenSanPham}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="SoLuong" DisplayMemberBinding="{Binding SoLuong}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Tổng tiền" DisplayMemberBinding="{Binding TongTien}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Tình trạng" DisplayMemberBinding="{Binding TINHTRANG.MoTa}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Ngày mua" DisplayMemberBinding="{Binding NgayMua}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Người bán" DisplayMemberBinding="{Binding QUANTRIVIEN.TenQTV}"></GridViewColumn>
+
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </ScrollViewer>
+            </materialDesign:Card>
+        </Grid>
+    </Grid>
+</Window>

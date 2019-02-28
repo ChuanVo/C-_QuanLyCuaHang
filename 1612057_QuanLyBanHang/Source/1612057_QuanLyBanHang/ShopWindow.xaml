@@ -1,0 +1,78 @@
+﻿<Window x:Class="_1612057_QuanLyBanHang.ShopWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_1612057_QuanLyBanHang"
+        mc:Ignorable="d"
+        
+         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        
+         xmlns:uc="clr-namespace:_1612057_QuanLyBanHang.UserControl_Chuan"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+         TextElement.FontWeight="Regular"
+         TextElement.FontSize="13"
+         TextOptions.TextFormattingMode="Ideal"
+         TextOptions.TextRenderingMode="Auto"
+         Background="{DynamicResource MaterialDesignPaper}"
+         FontFamily="{DynamicResource MaterialDesignFont}"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        
+        
+         DataContext="{StaticResource ShopVM}"
+        Name="window"        
+        Title="Shop" >
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <uc:ControlBarUC Tag="{Binding Title, ElementName=window}"></uc:ControlBarUC>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+
+            <!--binding các command xử lí-->
+            <materialDesign:Card Grid.Row="1" Margin="5">
+                <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Command="{Binding NameCommand}"  Content="Tên" Margin="5 5 70 5" Width="130" ></Button>
+                    <Button Command="{Binding PriceCommand}" Content="Giá" Margin="5 5 70 5" Width="130"></Button>
+                    <Button Command="{Binding CategoryCommand}" Content="Loại sản phẩm" Margin="5 5 70 5" Width="130"></Button>
+                    <Button Command="{Binding SLMuaCommand}" Content="Số lượng mua" Margin="5 5 70 5" Width="130" ></Button>
+                    <Button Command="{Binding SLConCommand}" Content="Số lượng còn" Margin="5 5 70 5" Width="130"></Button>
+                </WrapPanel>
+            </materialDesign:Card>
+
+            <!--grid view-->
+            <materialDesign:Card Grid.Row="2" Margin="5" VerticalAlignment="Stretch">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ListView ItemsSource="{Binding List}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="50" Header="ID" DisplayMemberBinding="{Binding ID_SANPHAM}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Loại SP" DisplayMemberBinding="{Binding LOAISANPHAM.TenLoaiSanPham}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Khuyến mãi" DisplayMemberBinding="{Binding KHUYENMAI.TenKhuyenMai}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Tên sản phẩm" DisplayMemberBinding="{Binding TenSanPham}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Hãng sản xuất" DisplayMemberBinding="{Binding HangSanXuat}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Giá bán" DisplayMemberBinding="{Binding GiaTien}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Giá nhập" DisplayMemberBinding="{Binding GiaNhap}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="SL mua" DisplayMemberBinding="{Binding SoLuotMua}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="SL còn" DisplayMemberBinding="{Binding SoLuongCon}"></GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </ScrollViewer>
+            </materialDesign:Card>
+        </Grid>
+    </Grid>
+</Window>

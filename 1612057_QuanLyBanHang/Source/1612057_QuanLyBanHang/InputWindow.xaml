@@ -1,0 +1,88 @@
+﻿<Window x:Class="_1612057_QuanLyBanHang.InputWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_1612057_QuanLyBanHang"
+        mc:Ignorable="d"
+        
+         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        
+         xmlns:uc="clr-namespace:_1612057_QuanLyBanHang.UserControl_Chuan"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+         TextElement.FontWeight="Regular"
+         TextElement.FontSize="13"
+         TextOptions.TextFormattingMode="Ideal"
+         TextOptions.TextRenderingMode="Auto"
+         Background="{DynamicResource MaterialDesignPaper}"
+         FontFamily="{DynamicResource MaterialDesignFont}"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        
+        
+         DataContext="{StaticResource InputVM}"
+        Name="window"        
+        Title="Nhập hàng" >
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <uc:ControlBarUC Tag="{Binding Title, ElementName=window}"></uc:ControlBarUC>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <!--các element binding từ selected item-->
+            <materialDesign:Card Grid.Row="0" Margin="5">
+                <WrapPanel Margin="0 0 0 10">
+
+                    <ComboBox Width="120" Margin="5 5 15 5" DisplayMemberPath="TenLoaiSanPham" ItemsSource="{Binding LOAISANPHAM}" SelectedItem="{Binding SelectedLOAISANPHAM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Loại sản phẩm" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}"></ComboBox>
+                    <ComboBox Width="120" Margin="5 5 15 5" DisplayMemberPath="TenKhuyenMai" ItemsSource="{Binding KHUYENMAI}" SelectedItem="{Binding SelectedKHUYENMAI, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Khuyến mãi" IsEditable="True" Style="{StaticResource MaterialDesignFloatingHintComboBox}"></ComboBox>
+                    <TextBox Text="{Binding TenSanPham , UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="5 5 15 5" materialDesign:HintAssist.Hint="Tên sản phẩm" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                    <TextBox Text="{Binding HangSanXuat, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="5 5 15 5" materialDesign:HintAssist.Hint="Tên Hãng" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                    <TextBox Text="{Binding GiaNhap, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="5 5 15 5" materialDesign:HintAssist.Hint="Giá nhập" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                    <TextBox Text="{Binding GiaTien, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="5 5 15 5" materialDesign:HintAssist.Hint="Giá bán" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                    <TextBox Text="{Binding SoLuongNhap, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="5 5 15 5" materialDesign:HintAssist.Hint="Số lượng" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                </WrapPanel>
+            </materialDesign:Card>
+
+            <!--binding các command xử lí-->
+            <materialDesign:Card Grid.Row="1" Margin="5">
+                <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Command="{Binding AddCommand}"  Content="Nhập hàng" Margin="5 5 70 5" Width="130" ></Button>
+                    <Button Command="{Binding DeleteCommand}" Content="Xóa" Margin="5 5 70 5" Width="130"></Button>
+                    <Button Command="{Binding EditCommand}" Content="Sửa" Margin="5 5 70 5" Width="130"></Button>
+                </WrapPanel>
+            </materialDesign:Card>
+
+            <!--grid view-->
+            <materialDesign:Card Grid.Row="2" Margin="5" VerticalAlignment="Stretch">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ListView ItemsSource="{Binding List}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="50" Header="ID" DisplayMemberBinding="{Binding ID_SANPHAM}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Loại SP" DisplayMemberBinding="{Binding LOAISANPHAM.TenLoaiSanPham}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Khuyến mãi" DisplayMemberBinding="{Binding KHUYENMAI.TenKhuyenMai}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Tên sản phẩm" DisplayMemberBinding="{Binding TenSanPham}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Hãng sản xuất" DisplayMemberBinding="{Binding HangSanXuat}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Giá bán" DisplayMemberBinding="{Binding GiaTien}"></GridViewColumn>
+                                <GridViewColumn Width="100" Header="Giá nhập" DisplayMemberBinding="{Binding GiaNhap}"></GridViewColumn>
+                                <GridViewColumn Width="120" Header="Số lượng tồn" DisplayMemberBinding="{Binding SoLuongCon}"></GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </ScrollViewer>
+            </materialDesign:Card>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,100 @@
+﻿<Window x:Class="_1612057_QuanLyBanHang.StatisticWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_1612057_QuanLyBanHang"
+        mc:Ignorable="d"
+        
+         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        
+         xmlns:uc="clr-namespace:_1612057_QuanLyBanHang.UserControl_Chuan"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+         TextElement.FontWeight="Regular"
+         TextElement.FontSize="13"
+         TextOptions.TextFormattingMode="Ideal"
+         TextOptions.TextRenderingMode="Auto"
+         Background="{DynamicResource MaterialDesignPaper}"
+         FontFamily="{DynamicResource MaterialDesignFont}"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        
+        
+         DataContext="{StaticResource StatisticVM}"
+        Name="window"        
+        Title="Thống kê" >
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <uc:ControlBarUC Tag="{Binding Title, ElementName=window}"></uc:ControlBarUC>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition ></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+            <!--binding các command xử lí-->
+            <materialDesign:Card Grid.Column="0" Margin="1" VerticalAlignment="Stretch">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                  <WrapPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Command="{Binding DoanhThuCommand}"  Content="Doanh thu"  Width="160" ></Button>
+                   </WrapPanel>
+                    <WrapPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button  Command="{Binding LoiNhuanCommand}" Content="Lợi nhuận" Width="160"></Button>
+                    </WrapPanel>
+                    <WrapPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button  Command="{Binding BanChayNhatCommand}" Content="SP bán chạy nhất"  Width="160"></Button>
+                     </WrapPanel>
+                    <WrapPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button  Command="{Binding BanItNHatCommand}" Content="SP bán ít nhất"  Width="160" ></Button>
+                    </WrapPanel>
+                </Grid>
+            </materialDesign:Card>
+
+            <materialDesign:Card Grid.Column="1" Margin="1" VerticalAlignment="Stretch">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <WrapPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBox Width="200" Text="{Binding DoanhThu}"></TextBox>
+                    </WrapPanel>
+                    <WrapPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBox Width="200" Text="{Binding LoiNhuan}"></TextBox>
+                    </WrapPanel>
+                    <WrapPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBox Width="200" Text="{Binding SPBanChay}"></TextBox>
+                    </WrapPanel>
+                    <WrapPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBox Width="200" Text="{Binding SPBanIt}"></TextBox>
+                    </WrapPanel>
+                </Grid>
+            </materialDesign:Card>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Window>
